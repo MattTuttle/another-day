@@ -1,5 +1,6 @@
 import js.html.XMLHttpRequest;
 import yaml.Yaml;
+import yaml.Parser;
 
 class Ajax
 {

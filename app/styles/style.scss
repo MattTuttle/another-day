@@ -1,5 +1,19 @@
-html, body { height: 100%; }
+@import "normalize";
+@import "skeleton";
+
+html, body {
+	height: 100%;
+}
 
 body {
-	background: #333;
+	background: #F0F0F0;
+}
+
+.area-link {
+	cursor: pointer;
+}
+
+.container {
+	background: #FFF;
+	padding: 20px;
 }

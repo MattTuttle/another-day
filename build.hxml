@@ -1,7 +1,3 @@
--cmd scss app/styles/style.scss www/css/style.css
-
---next
-
 -js www/js/app.js
 -main Main
 -lib yaml
@@ -10,3 +6,7 @@
 --next
 
 -cmd PATH=/usr/local/bin:PATH && uglifyjs -o www/js/app.min.js www/js/app.js
+
+--next
+
+-cmd scss --style compressed --watch app/styles/style.scss:www/css/style.css

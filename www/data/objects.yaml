@@ -1,0 +1,20 @@
+start: bed
+areas:
+    bed:
+        description: |
+            Sam wakes up in bed under the [covers|bedroom]. An alarm near the bed is buzzing.
+    bedroom:
+        description: |
+            A well kept king-size bed is in the corner. It has a comforter covering the sheets with a floral pattern. Beside the bed is a night stand containing a lamp and book. An overstuffed dresser is against the wall and covered with various knick-knacks. There is a door that leads to the [hallway].
+
+    hallway:
+        description: |
+            Various pictures hang along the wall. A door leads to the [bedroom] and another to the [bathroom]. At the end of the hallway is the [living room].
+
+    living room:
+        description: |
+            The living room. [hallway]
+
+    bathroom:
+        description: |
+            The bathroom. [hallway]
