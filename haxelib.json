@@ -1,0 +1,12 @@
+{
+	"name": "ld32",
+	"license": "MIT",
+	"description": "Entry for LD32 Game Jam",
+	"contributors": ["heardtheword"],
+	"releasenote": "Initial Release",
+	"version": "0.1.0",
+	"url": "http://matttuttle.com/games/ld32/",
+	"dependencies": {
+		"yaml": "1.2.0"
+	}
+}
