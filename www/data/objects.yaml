@@ -1,8 +1,8 @@
-start: alarm
+start: bathroom
 areas:
     bed:
         description: |
-            It is early Monday morning. Sam wakes up in bed under the covers. An [alarm]{1} near the bed is buzzing.
+            It is early Monday morning. Sam wakes up in bed under the covers. An [alarm] near the bed is buzzing.
 
     alarm:
         description: |
@@ -17,17 +17,17 @@ areas:
 
     sleep1:
         description: |
-            The alarm goes off again.
+            The alarm goes off again. It seems to be buzzing louder now.
         options:
-            - option: Turn off the alarm and get up.
+            - option: Switch the alarm off and get out of bed.
               to: bedroom
-            - option: Hit the snooze button.
+            - option: Give the snooze button a smack.
               to: sleep2
               happiness: -3
 
     sleep2:
         description: |
-            The alarm goes off a third time. Sam finally crawls out of [bed|bedroom].
+            The alarm continues going off until Sam finally [crawls out of bed|bedroom].
         set: late
         unset: early
 
@@ -51,17 +51,20 @@ areas:
 
     bathroom:
         description: |
-            There is a large, tarnished [mirror]{1} over the bathroom sink and a clawfoot [tub]{1} next to the toilet. [hallway]
+            There is a large, [tarnished mirror|mirror]{4} over the bathroom sink and a [clawfoot tub|tub]{1} next to the toilet. [hallway]
 
     mirror:
-        description: |
-            Sam's image is reflected in the mirror.
-        options:
-            - option: Sam glances at the mirror.
-              to: bathroom
-            - option: Sam sees a few gray hairs and heaves a sigh.
-              to: bathroom
+        description: Sam's image is reflected in the mirror.
+        when:
+            - views: 1
+              description: Sam glances at the mirror.
+            - views: 3
+              description: Sam sees a few gray hairs and heaves a sigh.
+              happiness: -1
+            - views: 4
+              description: Sam sees wrinkles.
               happiness: -2
+        to: bathroom
 
     tub:
         description: |

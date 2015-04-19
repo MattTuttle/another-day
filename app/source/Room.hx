@@ -2,6 +2,8 @@ import yaml.util.ObjectMap;
 
 typedef Description = {
 	flag: String,
+	views: Int,
+	happiness: Int,
 	parts: Array<Dynamic>
 };
 
@@ -18,9 +20,9 @@ class Room
 		_when = new Array<Description>();
 
 		to = data.get("to");
-		happiness = data.exists("happiness") ? data.get("happiness") : 0;
 		set = data.get("set");
 		unset = data.get("unset");
+		happiness = data.exists("happiness") ? data.get("happiness") : 0;
 
 		_defaultDescription = parseDescription(data.get("description"));
 		if (data.exists("when"))
@@ -29,6 +31,8 @@ class Room
 			{
 				_when.push({
 					flag: when.get("flag"),
+					views: when.get("views"),
+					happiness: when.exists("happiness") ? when.get("happiness") : 0,
 					parts: parseDescription(when.get("description"))
 				});
 			}
@@ -66,16 +70,23 @@ class Room
 
 	private inline function toString():String
 	{
+		_viewTimes += 1;
 		var result = "";
 		var parts = _defaultDescription;
+		var happy = happiness;
+		var flags = Main.flags;
+		// check through when conditions for a better description
 		for (when in _when)
 		{
-			if (Main.flags.exists(when.flag) && Main.flags.get(when.flag) == true)
+			if (flags.exists(when.flag) && flags.get(when.flag) == true ||
+				when.views == _viewTimes)
 			{
+				happy = when.happiness;
 				parts = when.parts;
 				break;
 			}
 		}
+		Main.happiness += happy;
 		for (part in parts)
 		{
 			result += Std.string(part); // calls toString on anything not a String
@@ -104,6 +115,7 @@ class Room
 		return null;
 	}
 
+	private var _viewTimes:Int = 0;
 	private var _options:Array<Option>;
 	private var _when:Array<Description>;
 	private var _defaultDescription:Array<Dynamic>;

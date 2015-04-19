@@ -34,7 +34,6 @@ class Main
 			}
 			f.innerHTML = "<ul>" + html + "</ul>";
 #end
-			happiness += room.happiness;
 			var desc = '<p>$room</p>';
 			if (overwrite)
 			{
