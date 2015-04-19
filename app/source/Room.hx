@@ -1,8 +1,12 @@
 import yaml.util.ObjectMap;
 
+typedef Description = {
+	flag: String,
+	parts: Array<Dynamic>
+};
+
 class Room
 {
-	public var description(get, null):String;
 	public var to(default, null):String;
 	public var set(default, null):String;
 	public var unset(default, null):String;
@@ -11,16 +15,24 @@ class Room
 	public function new(data:Dynamic)
 	{
 		_options = new Array<Option>();
-		_descParts = new Map<String, Array<Dynamic>>();
+		_when = new Array<Description>();
 
 		to = data.get("to");
 		happiness = data.exists("happiness") ? data.get("happiness") : 0;
 		set = data.get("set");
 		unset = data.get("unset");
-		trace(data.get("when"));
 
-		// parse description
-		_descParts.set("default", parseDescription(data.get("description")));
+		_defaultDescription = parseDescription(data.get("description"));
+		if (data.exists("when"))
+		{
+			for (when in cast(data.get("when"), Array<Dynamic>))
+			{
+				_when.push({
+					flag: when.get("flag"),
+					parts: parseDescription(when.get("description"))
+				});
+			}
+		}
 
 		var options:Array<Dynamic> = data.get("options");
 		if (options != null)
@@ -52,10 +64,19 @@ class Room
 		return result;
 	}
 
-	private inline function get_description():String
+	private inline function toString():String
 	{
 		var result = "";
-		for (part in _descParts)
+		var parts = _defaultDescription;
+		for (when in _when)
+		{
+			if (Main.flags.exists(when.flag) && Main.flags.get(when.flag) == true)
+			{
+				parts = when.parts;
+				break;
+			}
+		}
+		for (part in parts)
 		{
 			result += Std.string(part); // calls toString on anything not a String
 		}
@@ -84,7 +105,8 @@ class Room
 	}
 
 	private var _options:Array<Option>;
-	private var _descParts:Map<String, Array<Dynamic>>;
+	private var _when:Array<Description>;
+	private var _defaultDescription:Array<Dynamic>;
 
 	private var link_regex = ~/\[\s*([a-zA-Z0-9 _]+)(?:\s*\|\s*([a-zA-Z0-9 _]+))?\s*\](?:\{([0-9]+)\})?/g;
 }

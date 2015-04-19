@@ -122,9 +122,9 @@ areas:
         description: The boss. [work]
         when:
             - flag: late
-              description: Regular time.
+              description: You're Late!! [work]
             - flag: early
-              description: Sam is early.
+              description: Sam is early. [work]
         #Different options depending on timeliness.
 
     desk:
