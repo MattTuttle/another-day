@@ -1,12 +1,17 @@
 -js www/js/app.js
 -main Main
 -lib yaml
+-debug
 -cp app/source
 
 --next
 
 -cmd PATH=/usr/local/bin:PATH && uglifyjs -o www/js/app.min.js www/js/app.js
+-cmd scss --style compressed app/styles/style.scss www/css/style.css
 
 --next
 
--cmd scss --style compressed --watch app/styles/style.scss:www/css/style.css
+-cmd cp www/css/style.css ~/Dropbox/LD32/css/style.css
+-cmd cp www/js/app.min.js ~/Dropbox/LD32/js/app.min.js
+-cmd cp www/index.html ~/Dropbox/LD32/index.html
+# -cmd cp ~/Dropbox/LD32/data/objects.yaml www/data/objects.yaml

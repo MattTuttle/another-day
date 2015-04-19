@@ -11,9 +11,22 @@ body {
 
 .area-link {
 	cursor: pointer;
+	text-decoration: underline;
 }
 
 .container {
 	background: #FFF;
 	padding: 20px;
+}
+
+.happiness {
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
+.smile {
+	fill: #333;
+	width: 30px;
+	height: 30px;
 }
