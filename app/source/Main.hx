@@ -4,7 +4,7 @@ import yaml.util.ObjectMap;
 class Main
 {
 
-	public static function changeArea(area:String, overwrite:Bool=true)
+	public static function changeArea(area:String)
 	{
 		var room = null;
 		if (rooms.exists(area))
@@ -12,51 +12,18 @@ class Main
 			var flags = Data.flags;
 			room = rooms.get(area);
 			var condition = room.getCondition();
+			var desc = '<p>$room</p>';
 			Data.happiness += condition.happiness;
 			if (condition.set != null) flags.set(condition.set, true);
 			if (condition.unset != null) flags.set(condition.unset, false);
-#if debug
-			var f = Browser.document.getElementById("debug");
-			var html = "";
-			for (f in flags.keys())
-			{
-				if (flags.get(f))
-				{
-					html += "<li>" + f + "</li>";
-				}
-			}
-			f.innerHTML = "<ul>" + html + "</ul>";
-#end
-			var desc = '<p>$room</p>';
-			if (condition.to != null)
-			{
-				var link = new Link("Continue", condition.to);
-				desc += '<p>$link</p>';
-			}
-			if (overwrite)
-			{
-				game.innerHTML = desc;
-			}
-			else
-			{
-				game.innerHTML += desc;
-			}
+			debug(flags.toString());
+			game.innerHTML = desc;
 		}
 		else
 		{
 			game.innerHTML += '<p>Room "$area" does not exist!</p>';
 		}
 		return room;
-	}
-
-	private static function parseYaml(data)
-	{
-		var areas:ObjectMap<String, Array<Dynamic>> = data;
-		for (name in areas.keys())
-		{
-			rooms.set(name, new Room(areas.get(name)));
-			var area = areas.get(name);
-		}
 	}
 
 	public static function start()
@@ -84,6 +51,13 @@ class Main
 		});
 	}
 
+	public static function debug(msg:String):Void
+	{
+		#if debug
+		trace(msg);
+		#end
+	}
+
 	public static function main()
 	{
 		// get data and build structures
@@ -97,7 +71,17 @@ class Main
 			for (include in includes)
 			{
 				Ajax.get(include, function(data) {
-					parseYaml(yaml.Yaml.parse(data));
+					var areas:ObjectMap<String, Array<Dynamic>> = yaml.Yaml.parse(data);
+					// TODO: lock rooms object during concurrent write operations...
+					for (name in areas.keys())
+					{
+						if (rooms.exists(name))
+						{
+							debug('Room $name exists more than once.');
+						}
+						rooms.set(name, new Room(areas.get(name)));
+					}
+					// if all include files are loaded we can start the game
 					if (--toLoad == 0)
 					{
 						start();

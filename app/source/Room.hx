@@ -3,12 +3,14 @@ import yaml.util.ObjectMap;
 using StringTools;
 
 typedef Condition = {
-	set: String,
+	?cond: String,
+	?set: String,
 	?unset: String,
 	to:String,
 	views: Int,
 	happiness: Int,
-	parts: Array<Dynamic>
+	parts: Array<Dynamic>,
+	options:Array<Option>
 };
 
 class Room
@@ -16,7 +18,6 @@ class Room
 
 	public function new(data:Dynamic)
 	{
-		_options = new Array<Option>();
 		_conditions = new Array<Condition>();
 
 		_defaultCondition = {
@@ -24,6 +25,7 @@ class Room
 			set: data.get("set"),
 			unset: data.get("unset"),
 			views: 0,
+			options: parseOptions(data.get("options")),
 			parts: parseDescription(data.get("description")),
 			happiness: data.exists("happiness") ? data.get("happiness") : 0
 		};
@@ -33,23 +35,28 @@ class Room
 			for (when in cast(data.get("when"), Array<Dynamic>))
 			{
 				_conditions.push({
-					set: when.get("flag"),
+					cond: when.get("flag"),
 					to: when.exists("to") ? when.get("to") : _defaultCondition.to,
 					views: when.get("views"),
+					options: data.exists("options") ? parseOptions(data.get("options")) : _defaultCondition.options,
 					happiness: when.exists("happiness") ? when.get("happiness") : _defaultCondition.happiness,
 					parts: parseDescription(when.get("description"))
 				});
 			}
 		}
+	}
 
-		var options:Array<Dynamic> = data.get("options");
-		if (options != null)
+	private function parseOptions(opts:Array<Dynamic>):Array<Option>
+	{
+		var options = new Array<Option>();
+		if (opts != null)
 		{
-			for (option in options)
+			for (option in opts)
 			{
-				_options.push(new Option(option));
+				options.push(new Option(option));
 			}
 		}
+		return options;
 	}
 
 	private function parseDescription(description:Dynamic)
@@ -99,7 +106,7 @@ class Room
 		// check through when conditions for a better description
 		for (condition in _conditions)
 		{
-			if ((condition.set != null && flags.exists(condition.set) && flags.get(condition.set) == true) ||
+			if ((condition.cond != null && flags.exists(condition.cond) && flags.get(condition.cond) == true) ||
 				condition.views == _viewTimes)
 			{
 				return condition;
@@ -114,25 +121,31 @@ class Room
 		_viewTimes += 1;
 
 		var result = "";
-		for (part in getCondition().parts)
+		var condition = getCondition();
+		for (part in condition.parts)
 		{
 			result += Std.string(part); // calls toString on anything not a String
 		}
-		if (_options.length > 0)
+		if (condition.options.length > 0)
 		{
 			result += '<ul>';
-			for (option in _options)
+			for (option in condition.options)
 			{
 				result += '<li>${option.description}</li>';
 			}
 			result += '</ul>';
+		}
+		if (condition.to != null)
+		{
+			var link = new Link("Continue", condition.to);
+			result += '<p>$link</p>';
 		}
 		return result;
 	}
 
 	public function getOption(uuid:String):Option
 	{
-		for (option in _options)
+		for (option in getCondition().options)
 		{
 			if (option.uuid == uuid)
 			{
@@ -143,10 +156,8 @@ class Room
 	}
 
 	private var _viewTimes:Int = 0;
-	private var _options:Array<Option>;
 	private var _conditions:Array<Condition>;
 	private var _defaultCondition:Condition;
-	private var _defaultDescription:Array<Dynamic>;
 
 	private var link_regex = ~/\[\s*([a-zA-Z0-9 _'"]+)(?:\s*\|\s*([a-zA-Z0-9 _"']+))?\s*\](?:\{([0-9]+)\})?/g;
 }

@@ -25,11 +25,21 @@ boss:
 cubicle:
     description: |
         Dull gray walls surround Sam's cubicle. A [computer monitor|monitor] sits on the desk next to her [work phone] and red stapler. Hanging on one of the walls is a [calendar].
+    when:
+        - views: 3
+          description: It is almost noon and time for a lunch break.
+          to: lunch
 
 calendar:
     description: |
         A calendar with a number of meetings marked on it. One is marked for today after lunch.
+        "I'd better not forget to go today", Sam says to herself.
+    when:
+        - flag: meeting scheduled
+          description: |
+            A calendar with a number of meetings marked on it. One is marked for today after lunch.
     to: cubicle
+    set: meeting scheduled
 
 work phone:
     description: |
@@ -38,19 +48,20 @@ work phone:
 
 monitor:
     description: |
-        The monitor shows a desktop filled with icons. A folder named [PROJECT FINAL|project] is front and center. Quick links to [email] and a [web browser] are available.
+        The monitor shows a desktop filled with icons. A folder named [Project Final|project] is front and center. Quick links to [email] and a [web browser] are available on the taskbar.
     to: cubicle
 
 email:
     description: |
         Sam opens the email client and sees a number of emails. The first is an [email from her boss|boss email]{1} and another is [from a client|client email]{1}.
+    to: monitor
 
 boss email:
     description: |
         Sam,
         Good job on your last project! The client may have been difficult to work with but you persevered and did your best. Keep up that kind of work and you might be looking at a promotion.
         Jerry
-    happiness: 2
+    happiness: 1
     to: email
 
 client email:
@@ -58,39 +69,53 @@ client email:
         Hi, you recently worked with our company on a project and we were disappointed with the speed of your service. In the future we will be looking at other companies besides Glacier Corp in hopes of getting better customer support.
         Harriet Butternut
         Iris Publications
-    happiness: -1
-    options:
-        - option: Respond with a snarky email
-          to: snark email
-        - option: Close the email
-          to: email
+    happiness: -2
+    to: email
 
+# TODO: create links for these websites
 web browser:
     description: |
-        A web browser
-    options:
-        - option: Surf the web
-          to: surf web
-        - option: Close
-          to: monitor
+        Sam's most recently visited websites pop into view. One for the company's intranet, another for Twitter, and her personal blog.
+    to: monitor
 
 project:
     description: |
-        This folder contains a number of spreadsheets providing details about Sam's current work project. Most of the files are complete but a few still need work.
+        This folder, linked to the corporate shared drive, contains a number of spreadsheets providing details about Sam's current work project. Most of the files are complete but a few still need work.
     options:
-        - option: Sam decides to work on the project.
-          to: work on project
+        - option: Open the client spreadsheet.
+          to: spreadsheet
         - option: Close the folder.
           to: monitor
 
-work on project:
+spreadsheet:
     description: |
-        Work on project.
-    to: lunch
+        The spreadsheet contains an [invoice] for all the client's expenses. Another tab contains planned [meeting times]{1} to meet on details about the project.
+    options:
+        - option: Close the spreadsheet and folder.
+          to: monitor
+
+invoice:
+    description: |
+        Each line item contains a description, an hourly estimate and actual time spent on the task. The items are categorized into several sections.
+    to: spreadsheet
+
+meeting times:
+    description: |
+        A long list of past and future meeting times. Sam notices that one of them is schedule for this afternoon.
+        "I'd better write it on my calendar!"
+    to: spreadsheet
+    set: meeting scheduled
 
 lunch:
     description: |
-        Food or no food? [work] [chat with friend]
+        There are a number of food places around the corporate offices.
+    options:
+        - option: Get burgers at fast food place.
+          to: lunch burgers
+        - option: Go to a sit-down restaurant with co-workers.
+          to: lunch restaurant
+        - option: Work through the lunch hour.
+          to: lunch work
 
 chat with friend:
     description: |
@@ -112,9 +137,12 @@ leave work:
           description: Completed work project. Encounter rush hour traffic.
 
 car leaving work:
-    description: Roll down the windows and crank up the tunes.[friends house] [restaurant no friend]
+    description: |
+        Roll down the windows and crank up the tunes.[friends house] [restaurant no friend]
     when:
         - flag: friends house
-          description: arrive at [friends house].
+          description: |
+            arrive at [friends house].
         - flag: restaurant
-          description: enter [restaurant no friend].
+          description: |
+            enter [restaurant no friend].
