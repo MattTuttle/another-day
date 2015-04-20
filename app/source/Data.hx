@@ -2,15 +2,16 @@ import js.html.*;
 
 class Data
 {
+
+	public static inline var maxHappiness = 10;
+
 	public static var happiness(default, set):Int = 0;
 	private static function set_happiness(value:Int):Int
 	{
-		var max = 20;
-		var percent = ((value + max / 2) / max);
+		// cap happiness values
+		if (Math.abs(happiness) > maxHappiness) happiness = (happiness < 0 ? -1 : 1) * maxHappiness;
 
-		// cap percent values
-		if (percent < 0) percent = 0;
-		else if (percent > 1) percent = 1;
+		var percent = ((value + maxHappiness) / maxHappiness / 2);
 
 		if (_path == null)
 		{

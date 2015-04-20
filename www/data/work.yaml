@@ -19,7 +19,7 @@ boss:
           description: |
             "This is the third time you've been late to work! You continue down this path and you'll end up looking for a job."
             Sam apologizes and walks to her cubicle.
-          happiness: -1
+          happiness: -5
     to: cubicle
 
 cubicle:
@@ -35,11 +35,11 @@ calendar:
         A calendar with a number of meetings marked on it. One is marked for today after lunch.
         "I'd better not forget to go today", Sam says to herself.
     when:
-        - flag: meeting scheduled
+        - flag: meeting on time
           description: |
             A calendar with a number of meetings marked on it. One is marked for today after lunch.
     to: cubicle
-    set: meeting scheduled
+    set: meeting on time
 
 work phone:
     description: |
@@ -104,7 +104,7 @@ meeting times:
         A long list of past and future meeting times. Sam notices that one of them is schedule for this afternoon.
         "I'd better write it on my calendar!"
     to: spreadsheet
-    set: meeting scheduled
+    set: meeting on time
 
 lunch:
     description: |
@@ -113,36 +113,76 @@ lunch:
         - option: Get burgers at fast food place.
           to: lunch burgers
         - option: Go to a sit-down restaurant with co-workers.
-          to: lunch restaurant
+          to: lunch coworkers
         - option: Work through the lunch hour.
           to: lunch work
 
-chat with friend:
+lunch work:
     description: |
-        Friend's car breaks down and needs a ride to dinner.
-    to: work
-    #Choose to ignore or take phone call?
+        Sam decides to work through the lunch hour and just eat snacks from the vending area. It's probably not the healthiest option but she needed the extra time to get work done. While she's working the phone rings.
+    to: lunch phone call
+
+lunch burgers:
+    description: |
+        Sam goes for a quick bite at the nearby fast food place. She orders her burgers and heads back to the office.
+    to: meeting
+
+lunch coworkers:
+    description: |
+        Sam decides to go to lunch with her co-workers. The restaurant has great service and the food is delicious. Sam gets caught up talking with her co-workers about what they did over the weekend. They chat for over an hour and head back to the office.
+    to: meeting
+    happiness: 3
+    unset: meeting on time
+
+lunch phone call:
+    description: |
+        "Hello, you've reached Glacier Corp. This is Sam speaking."
+        "Hey Sam. It's Trisha."
+        "Oh, hey Trish. Still planning to meet tonight?"
+        "Yeah, but I need a favor. My car broke down and I need a ride. Can you come pick me up this evening?"
+        "Sure thing. I'll be there a 15 minutes before 7:00. Hey, I've got a meeting. I'll catch you later!"
+    when:
+        - flag: pickup trisha
+          description: |
+            "Hello, you've reached Glacier Corp. This is Sam speaking."
+            "Hi, I'm Ivan from accounting. Do you have a minute?"
+            "Sure. Is something wrong?"
+            "It seems we made a mistake on your last paycheck. You should have received several hundred dollars more. We'll include it on the following payday."
+            "Thanks for letting me know!"
+            Sam hangs up the phone and heads to her afternoon meeting.
+          happiness: 5
+    set: pickup trisha
+    to: meeting
 
 meeting:
     description: |
-        Presentation on work stuff. [work]
+        Sam finishes lunch and heads to her afternoon meeting. Upon arriving, she sees that the meeting has already started. She must not have paid attention to the time!
+        "You're late", her boss remarks.
+        Sam slinks into a chair near the door and the meeting continues.
+    when:
+        - flag: meeting on time
+          description: |
+            Sam finishes lunch and heads to her afternoon meeting.
+            Her boss greets her at the door, "Samantha, have you met our client representative, Rashad?"
+            "Pleased to meet you Samantha. Your boss has spoken very highly of you."
+            Sam blushes and takes a seat at the conference table.
+          happiness: 1
+    happiness: -2
+    to: meeting2
+
+meeting2:
+    description: |
+        "As you can see quarterly earnings have increased which is good news for the company."
+        Sam fidgets in her chair and tries to stay focused on the meeting. The minutes seem to slow to a crawl as she watches the clock face on the other end of the meeting room.
+        After what seems like a millenium the meeting is finally over. Sam packs up her things and heads to the parking lot.
+    to: leave work
 
 leave work:
-    description: Leave work. [car leaving work]
-    #Road rage?
-    when:
-        - flag: leave early
-          description: Left the office early. Boss is angry.
-        - flag: leave on time
-          description: Completed work project. Encounter rush hour traffic.
-
-car leaving work:
     description: |
-        Roll down the windows and crank up the tunes.[friends house] [restaurant no friend]
+        Sam leaves work and heads to a restaurant to meet her friend Trisha for supper.
+    to: restaurant no friend
     when:
-        - flag: friends house
+        - flag: pickup trisha
           description: |
-            arrive at [friends house].
-        - flag: restaurant
-          description: |
-            enter [restaurant no friend].
+            Sam leaves work and heads for Trisha's.
+          to: friends house
