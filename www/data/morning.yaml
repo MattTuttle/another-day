@@ -1,0 +1,133 @@
+bed:
+    description: |
+        It is early Monday morning. The sun is streaking through the blinds and bounces along the bedspread. Sam becomes groggily aware of a [buzzing sound] in the distance.
+
+buzzing sound:
+    description: Reaching around in the dim sunlight Sam finds the origin of the buzzing. It's an alarm clock on the bed stand warning Sam to wake up for work.
+    options:
+        - option: Turn off the alarm and get up.
+          to: bedroom
+          happiness: 1
+        - option: Hit the snooze button.
+          to: sleep1
+
+sleep1:
+    description: The alarm goes off again. It seems to be buzzing louder now but maybe it's just Sam's imagination.
+    options:
+        - option: Switch the alarm off and get out of bed.
+          to: bedroom
+        - option: Give the snooze button another smack.
+          to: sleep2
+          happiness: -2
+
+sleep2:
+    description: The alarm continues going off until Sam finally crawls out of bed. She should have been at work an hour ago!
+    set: late
+    to: bedroom
+
+bedroom:
+    description: |
+        A well kept queen-size bed is in the corner. It has a comforter covering the sheets with a chevron pattern. Beside the bed is a night stand containing a lamp and [book]{1}. An [overstuffed dresser|dresser]{1} is against the wall and covered with various knick-knacks. There is a door that leads to the [hallway].
+    image:
+        link: https://www.flickr.com/photos/bnsnstore/15991077750
+        title: Bonsoni Halsetown Range by sonyhp, on Flickr
+        url: https://farm8.staticflickr.com/7540/15991077750_42f65749c5_s.jpg
+
+dresser:
+    description: |
+        Lots of Sam's clothes are packed into the drawers. On top of the dresser are her car keys. Sam grabs them and stuffs them in her pocket.
+    set: car keys
+    to: bedroom
+
+book:
+    description: The book is entitled "Daily Inspirational Quotes". It looks well read with several earmarked pages in it.
+    options:
+        - option: Read a few pages of the book.
+          to: read book
+        - option: Put the book back.
+          to: bedroom
+
+read book:
+    description: One quote from the book stands out to Sam, "Stay strong and have faith. We all struggle sometimes." What a great way to start the day!
+    to: bedroom
+    happiness: 3
+
+hallway:
+    description: |
+        Various pictures hang along the corridor. A door leads to the [bedroom] and another to the [bathroom]. At the end of the hallway is the [living room].
+
+bathroom:
+    description: |
+        There is a large, [tarnished mirror|mirror]{4} over the bathroom sink. Next to the toilet is a [clawfoot tub|tub]{1}. [hallway]
+
+mirror:
+    description: Sam glances at the mirror.
+    when:
+        - views: 2
+          description: Looking a little closer, Sam sees her reflection in the mirror.
+        - views: 3
+          description: Oh no! A few gray hairs are showing in the otherwise long sleek brunette hair on Sam's head.
+          happiness: -1
+        - views: 4
+          description: Sam examines her face closely and notices wrinkles forming around her eyes. She heaves a sigh. Age is an evil mistress.
+          happiness: -2
+    to: bathroom
+
+tub:
+    description: Sam hops into the shower. The warm water feels good running through her hair and down to her feet. She hums a little tune to herself and a smile forms on her face. Finishing up she gets dressed and ready for work.
+    to: bathroom
+    set: clean
+    happiness: 2
+
+living room:
+    description: |
+        A cozy living room off the [hallway] with plush beige carpet. There is a large [television set|tv]{1} against the wall. A set of tv trays lean up against the sofa. The [kitchen] connects to the living room through an entryway.
+
+tv:
+    description: |
+        Sam turns on the tv and the news comes on. "In local news, a man is arrested for randomly shooting bystanders at the city park.". "That's near where I live!", Sam thinks to herself.
+    happiness: -1
+    to: living room
+
+kitchen:
+    description: |
+        The kitchen connects to the [living room] via an entryway. A door leads to the [garage]. On the dining table is a [cordless phone|phone]{1} with an answering machine.
+
+phone:
+    description: |
+        There is a message on the machine. It is Sam's friend Trisha. Her car is in the shop and she needs a ride to tonight's meetup.
+    options:
+      - option: Call Trisha back.
+        to: call trisha
+      - option: Delete the message.
+        to: kitchen
+
+call trisha:
+    description: |
+        "Hey Sam! Can you take me to the restaurant tonight?"
+        "Sure Trish, I'll pick you up 15 minutes before 7:00."
+        "Thanks, you're the best!"
+    to: kitchen
+    set: pickup trisha
+    happiness: 1
+
+garage:
+    description: |
+        Various yard tools line the walls of the garage. A [car|unlock car] with the license plate number "LD32" is parked here. The [kitchen] door leads back into the house.
+
+unlock car:
+    description: The car is locked. Sam tries to remember where she last left the keys.
+    to: garage
+    when:
+        - flag: car keys
+          description: Sam unlocks the car and gets in.
+          to: car leaving house
+
+car leaving house:
+    description: |
+        Sam opens the garage door and starts up the car. After locking in her seat belt she is faced with a decision on where to go.
+    options:
+        - option: Get a latte at the local coffee shop.
+          to: coffee shop
+        - option: Drive directly to work.
+          to: work

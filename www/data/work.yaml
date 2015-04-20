@@ -1,0 +1,93 @@
+work:
+    description: |
+        Office job. [boss] [desk] [customer] [lunch]{1} [meeting] [leave work]
+#Variable for being late to work.
+#Add project somewhere - work or desk?
+
+boss:
+    description: The boss. [work]
+    when:
+        - flag: late
+          description: You're Late!! [work]
+        - flag: early
+          description: Sam is early. [work]
+    #Different options depending on timeliness.
+
+desk:
+    description: |
+        Gray cubicle walls. Red stapler. TPS Reports. [work] [customer]
+
+customer:
+    description: |
+        Irate customer. [work]
+
+project:
+    description: |
+        Work on project. [desk]
+#Not sure where this is going...
+
+lunch:
+    description: |
+        Food or no food? [work] [chat with friend]
+
+chat with friend:
+    description: |
+        Friend's car breaks down and needs a ride to dinner.
+    to: work
+    #Choose to ignore or take phone call?
+
+meeting:
+    description: |
+        Presentation on work stuff. [work]
+
+leave work:
+    description: Leave work. [car leaving work]
+    #Road rage?
+    when:
+        - flag: leave early
+          description: Left the office early. Boss is angry.
+        - flag: leave on time
+          description: Completed work project. Encounter rush hour traffic.
+
+car leaving work:
+    description: Roll down the windows and crank up the tunes.[friends house] [restaurant no friend]
+    when:
+        - flag: friends house
+          description: arrive at [friends house].
+        - flag: restaurant
+          description: enter [restaurant no friend].
+
+friends house:
+    description: |
+        Pull into driveway. [restaurant friend]
+    options:
+        - option: Honk horn to notify friend of arrival. Leave for restaurant.
+          happiness: -1
+          to: restaurant friend
+        - option: Approach your friend's front door. Leave for restaurant.
+          to: restaurant friend
+
+restaurant no friend:
+    description: |
+        Arrive at the restaurant. Uh-oh! Your friend is not there. [text friend]
+    happiness: -1
+
+text friend:
+    description: |
+        Find out that your friend's car broke down and they need a ride.
+    to: friends house
+#Need a when somewhere depending on if you took the phone call or not.
+
+restaurant friend:
+    description: |
+        Arrive at restaraunt with friend. [return friend]
+#Wait to be seated, food undercooked, tip waitress
+
+return friend:
+    description: |
+        Take your friend home. [home night]
+
+home night:
+    description: |
+        Return home.
+#TV night, read book, bills, letter from grandma, sleep

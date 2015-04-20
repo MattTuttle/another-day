@@ -1,7 +1,11 @@
 import yaml.util.ObjectMap;
 
-typedef Description = {
-	flag: String,
+using StringTools;
+
+typedef Condition = {
+	set: String,
+	?unset: String,
+	to:String,
 	views: Int,
 	happiness: Int,
 	parts: Array<Dynamic>
@@ -9,30 +13,30 @@ typedef Description = {
 
 class Room
 {
-	public var to(default, null):String;
-	public var set(default, null):String;
-	public var unset(default, null):String;
-	public var happiness(default, null):Int;
 
 	public function new(data:Dynamic)
 	{
 		_options = new Array<Option>();
-		_when = new Array<Description>();
+		_conditions = new Array<Condition>();
 
-		to = data.get("to");
-		set = data.get("set");
-		unset = data.get("unset");
-		happiness = data.exists("happiness") ? data.get("happiness") : 0;
+		_defaultCondition = {
+			to: data.get("to"),
+			set: data.get("set"),
+			unset: data.get("unset"),
+			views: 0,
+			parts: parseDescription(data.get("description")),
+			happiness: data.exists("happiness") ? data.get("happiness") : 0
+		};
 
-		_defaultDescription = parseDescription(data.get("description"));
 		if (data.exists("when"))
 		{
 			for (when in cast(data.get("when"), Array<Dynamic>))
 			{
-				_when.push({
-					flag: when.get("flag"),
+				_conditions.push({
+					set: when.get("flag"),
+					to: when.exists("to") ? when.get("to") : _defaultCondition.to,
 					views: when.get("views"),
-					happiness: when.exists("happiness") ? when.get("happiness") : 0,
+					happiness: when.exists("happiness") ? when.get("happiness") : _defaultCondition.happiness,
 					parts: parseDescription(when.get("description"))
 				});
 			}
@@ -48,46 +52,69 @@ class Room
 		}
 	}
 
-	private function parseDescription(description)
+	private function parseDescription(description:Dynamic)
 	{
 		var result = new Array<Dynamic>();
-		while (link_regex.match(description))
+		var lines = if (Std.is(description, Array))
 		{
-			var link = link_regex.matched(1);
-			var to = link_regex.matched(2);
-			var times = link_regex.matched(3) == null ? -1 : Std.parseInt(link_regex.matched(3));
-			if (to == null) to = link;
-			result.push(link_regex.matchedLeft());
-			result.push(new Link(link, to, times));
-			description = link_regex.matchedRight();
+			cast(description, Array<Dynamic>);
 		}
-		if (description != "")
+		else
 		{
-			result.push(description);
+			description.split("\n");
 		}
+
+		for (i in 0...lines.length)
+		{
+			var line:String = lines[i];
+			if (line.trim() == "") continue;
+
+			while (link_regex.match(line))
+			{
+				var link = link_regex.matched(1);
+				var to = link_regex.matched(2);
+				var times = link_regex.matched(3) == null ? -1 : Std.parseInt(link_regex.matched(3));
+				if (to == null) to = link;
+				result.push(link_regex.matchedLeft());
+				result.push(new Link(link, to, times));
+				line = link_regex.matchedRight();
+			}
+			if (line != "")
+			{
+				result.push(line);
+			}
+			result.push(new LineBreak());
+		}
+		if (result.length > 0 && Std.is(result[result.length-1], LineBreak))
+		{
+			result.pop();
+		}
+
 		return result;
+	}
+
+	public function getCondition():Condition
+	{
+		var flags = Data.flags;
+		// check through when conditions for a better description
+		for (condition in _conditions)
+		{
+			if ((condition.set != null && flags.exists(condition.set) && flags.get(condition.set) == true) ||
+				condition.views == _viewTimes)
+			{
+				return condition;
+				break;
+			}
+		}
+		return _defaultCondition;
 	}
 
 	private inline function toString():String
 	{
 		_viewTimes += 1;
+
 		var result = "";
-		var parts = _defaultDescription;
-		var happy = happiness;
-		var flags = Main.flags;
-		// check through when conditions for a better description
-		for (when in _when)
-		{
-			if (flags.exists(when.flag) && flags.get(when.flag) == true ||
-				when.views == _viewTimes)
-			{
-				happy = when.happiness;
-				parts = when.parts;
-				break;
-			}
-		}
-		Main.happiness += happy;
-		for (part in parts)
+		for (part in getCondition().parts)
 		{
 			result += Std.string(part); // calls toString on anything not a String
 		}
@@ -117,7 +144,8 @@ class Room
 
 	private var _viewTimes:Int = 0;
 	private var _options:Array<Option>;
-	private var _when:Array<Description>;
+	private var _conditions:Array<Condition>;
+	private var _defaultCondition:Condition;
 	private var _defaultDescription:Array<Dynamic>;
 
 	private var link_regex = ~/\[\s*([a-zA-Z0-9 _]+)(?:\s*\|\s*([a-zA-Z0-9 _]+))?\s*\](?:\{([0-9]+)\})?/g;

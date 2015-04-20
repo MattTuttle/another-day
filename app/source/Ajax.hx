@@ -1,10 +1,8 @@
 import js.html.XMLHttpRequest;
-import yaml.Yaml;
-import yaml.Parser;
 
 class Ajax
 {
-	public static function getYaml(url:String, callback:Dynamic->Void, ?error:XMLHttpRequest->Void, ?beforeSend:XMLHttpRequest->Void)
+	public static function get(url:String, callback:Dynamic->Void, ?error:XMLHttpRequest->Void, ?beforeSend:XMLHttpRequest->Void)
 	{
 		var xhr = new XMLHttpRequest();
 		xhr.onreadystatechange = function() {
@@ -16,7 +14,7 @@ class Ajax
 
 			if (xhr.readyState == 4)
 			{
-				callback(Yaml.parse(xhr.responseText));
+				callback(xhr.responseText);
 			}
 		};
 		xhr.open("GET", url, true);

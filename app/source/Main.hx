@@ -4,24 +4,17 @@ import yaml.util.ObjectMap;
 class Main
 {
 
-	public static var happiness(default, set):Int = 0;
-	private static function set_happiness(value:Int):Int
-	{
-		var el = Browser.document.getElementById("happiness");
-		el.innerHTML = Std.string(value);
-		return happiness = value;
-	}
-
-	public static var flags = new Map<String,Bool>();
-
 	public static function changeArea(area:String, overwrite:Bool=true)
 	{
 		var room = null;
 		if (rooms.exists(area))
 		{
+			var flags = Data.flags;
 			room = rooms.get(area);
-			if (room.set != null) flags.set(room.set, true);
-			if (room.unset != null) flags.set(room.unset, false);
+			var condition = room.getCondition();
+			Data.happiness += condition.happiness;
+			if (condition.set != null) flags.set(condition.set, true);
+			if (condition.unset != null) flags.set(condition.unset, false);
 #if debug
 			var f = Browser.document.getElementById("debug");
 			var html = "";
@@ -35,6 +28,11 @@ class Main
 			f.innerHTML = "<ul>" + html + "</ul>";
 #end
 			var desc = '<p>$room</p>';
+			if (condition.to != null)
+			{
+				var link = new Link("Continue", condition.to);
+				desc += '<p>$link</p>';
+			}
 			if (overwrite)
 			{
 				game.innerHTML = desc;
@@ -42,10 +40,6 @@ class Main
 			else
 			{
 				game.innerHTML += desc;
-			}
-			if (room.to != null)
-			{
-				return changeArea(room.to, false);
 			}
 		}
 		else
@@ -55,42 +49,66 @@ class Main
 		return room;
 	}
 
+	private static function parseYaml(data)
+	{
+		var areas:ObjectMap<String, Array<Dynamic>> = data;
+		for (name in areas.keys())
+		{
+			rooms.set(name, new Room(areas.get(name)));
+			var area = areas.get(name);
+		}
+	}
+
+	public static function start()
+	{
+		game = Browser.document.getElementById("game");
+		var currentRoom = changeArea(startRoom);
+		game.addEventListener("click", function(e) {
+			var target = e.target;
+			if (target.className == "area-link")
+			{
+				if (target.hasAttribute("data-option"))
+				{
+					var option = currentRoom.getOption(target.getAttribute("data-option"));
+					if (option != null)
+					{
+						Data.happiness += option.happiness;
+					}
+				}
+				else if (target.hasAttribute("data-link"))
+				{
+					Link.click(target.getAttribute("data-link"));
+				}
+				currentRoom = changeArea(target.getAttribute("data-area"));
+			}
+		});
+	}
+
 	public static function main()
 	{
 		// get data and build structures
-		Ajax.getYaml("data/objects.yaml", function(data) {
-			var areas:ObjectMap<String, Array<Dynamic>> = data.get("areas");
+		Ajax.get("data/main.json", function(data) {
 			rooms = new Map<String, Room>();
-			for (name in areas.keys())
-			{
-				rooms.set(name, new Room(areas.get(name)));
-				var area = areas.get(name);
-			}
+			var json = haxe.Json.parse(data);
+			startRoom = json.start;
 
-			game = Browser.document.getElementById("game");
-			var currentRoom = changeArea(cast data.get("start"));
-			game.addEventListener("click", function(e) {
-				var target = e.target;
-				if (target.className == "area-link")
-				{
-					if (target.hasAttribute("data-option"))
+			var includes:Array<Dynamic> = json.includes;
+			var toLoad = includes.length;
+			for (include in includes)
+			{
+				Ajax.get(include, function(data) {
+					parseYaml(yaml.Yaml.parse(data));
+					if (--toLoad == 0)
 					{
-						var option = currentRoom.getOption(target.getAttribute("data-option"));
-						if (option != null)
-						{
-							happiness += option.happiness;
-						}
+						start();
 					}
-					else if (target.hasAttribute("data-link"))
-					{
-						Link.click(target.getAttribute("data-link"));
-					}
-					currentRoom = changeArea(target.getAttribute("data-area"));
-				}
-			});
+				});
+			}
 		});
 	}
 
 	private static var game:js.html.DOMElement;
 	private static var rooms:Map<String, Room>;
+	private static var startRoom:String;
+
 }

@@ -14,4 +14,4 @@
 -cmd cp www/css/style.css ~/Dropbox/LD32/css/style.css
 -cmd cp www/js/app.min.js ~/Dropbox/LD32/js/app.min.js
 -cmd cp www/index.html ~/Dropbox/LD32/index.html
-# -cmd cp ~/Dropbox/LD32/data/objects.yaml www/data/objects.yaml
+-cmd cp ~/Dropbox/LD32/data/coffee.yaml www/data/coffee.yaml

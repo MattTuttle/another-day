@@ -1,0 +1,39 @@
+coffee shop:
+    description: |
+        Sam walks in to Perk Up Cafe to the strong aroma of coffee filling the air. The gentle murmor of voices could be heard as Sam spies the long line of people waiting to order.
+    options:
+        - option: Get in line behind 5 people.
+          to: coffee shop line
+        - option: Forgo coffee this morning and head to work.
+          to: car no coffee
+
+coffee shop line:
+    description: |
+        Sam looks around the coffee shop as she waits to place her order. The walls are filled with [artwork]{1} created by local artists. There is a shelf nearby with a variety of Perk Up Cafe [merchandise]{1}. The [stranger] in front of her is wearing a t-shirt for her favorite band, Megabass.
+
+artwork:
+    description: |
+        There are portraits, landscapes, and abstract pieces created in a variety of mediums. A field of flowers painted on an old window catches Sam's eye. Looking closer, she realizes that it was painted by her old art teacher.
+    to: coffee shop line
+
+merchandise:
+    description: |
+        Sam picks up a purple mug with the Perk Up Cafe logo emblazoned on it. Flipping it over, she checks the bottom of the mug for the price. She sets it back on the shelf after seeing that it costs $20.
+    to: coffee shop line
+
+stranger:
+    description: |
+        Sam turns to the stranger. "Hi. I love Megabass."
+        "Yeah, they're great!"
+    when:
+        - views: 2
+          description: My favorite song by Megabass is 'Your Lovely Heart.'
+
+barista:
+    description: |
+        Grumpy barista. [coffee shop]
+#Barista may prevent Sam from speaking to the stranger
+
+car leaving coffee:
+    description: |
+        Crazy traffic. [work]

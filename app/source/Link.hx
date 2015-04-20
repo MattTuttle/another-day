@@ -5,7 +5,7 @@ class Link
 	public var to(default, null):String;
 	public var times(default, null):Int;
 
-	public function new(link:String, to:String, times:Int)
+	public function new(link:String, to:String, times:Int=-1)
 	{
 		this.link = link;
 		this.to = to;
