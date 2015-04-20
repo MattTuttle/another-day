@@ -57,7 +57,7 @@ line advances:
 
 barista:
     description: |
-        With a frantic look in her eyes, the regular barista, Hannah, looks around the coffee shop. "What do you want?" she barks out.
+        With a frown on her face, the regular barista, Hannah, barks out, "What do you want?"
     options:
         - option: Sam smiles and says, "Good morning, Hannah! It's so wonderful to see you today."
           to: barista happy
