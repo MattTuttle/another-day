@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>LD32</title>
+	<title>LD32: Another Day</title>
 	<meta name="description" content="">
 	<meta name="author" content="Matt Tuttle">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="css/style.css?v=1.0">
 </head>
 <body>
@@ -46,16 +47,23 @@
 			<path d="M38.61,68.308c0.938,5.974,6.543,10.055,12.515,9.116c5.973-0.939,10.056-6.541,9.115-12.515L38.61,68.308z "/>
 		</symbol>
 	</svg>
-	<div class="container">
+	<div class="container" style="max-width:500px">
 		<div class="row">
-			<div id="game"></div>
-			<div class="happiness">
-				<span id="happiness">0</span>
-				<svg class="smile">
-					<use xlink:href="#face-smile" />
-				</svg>
-			</div>
+			<h1 style="margin:2rem 0 5px;font-size:4rem">Another Day</h1>
+			<noscript>You must have javascript enabled to view this game.</noscript>
 		</div>
+		<div class="row story">
+			<div class="four columns text-center">
+				<svg id="happiness" width="70" height="70" fill="none" viewBox="0 0 70 70">
+					<path d="m35,2.5c17.955803,0 32.5,14.544199 32.5,32.5c0,17.955803 -14.544197,32.5 -32.5,32.5c-17.955803,0 -32.5,-14.544197 -32.5,-32.5c0,-17.955801 14.544197,-32.5 32.5,-32.5z"/>
+					<circle cx="35" cy="35" r="25" fill="#FFD792"/>
+					<svg fill="#333" width="83" height="83" x="-3" y="0"><use id="face" xlink:href="#face-neutral" /></svg>
+				</svg>
+				<p><strong>Happiness</strong></p>
+			</div>
+			<div id="game" class="eight columns"></div>
+		</div>
+		<span style="float:right"><a href="/" onclick="location.reload(); return false;">Restart</a></span>
 	</div>
 	<div id="debug"></div>
 	<script src="js/app.min.js"></script>

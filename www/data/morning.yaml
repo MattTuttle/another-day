@@ -1,4 +1,4 @@
-bed:
+morning:
     description: |
         It is early Monday morning. The sun is streaking through the blinds and bounces along the bedspread. Sam becomes groggily aware of a [buzzing sound] in the distance.
 
@@ -58,7 +58,7 @@ hallway:
 
 bathroom:
     description: |
-        There is a large, [tarnished mirror|mirror]{4} over the bathroom sink. Next to the toilet is a [clawfoot tub|tub]{1}. [hallway]
+        There is a large, [tarnished mirror|mirror]{4} over the bathroom sink. Next to the toilet is a [clawfoot tub|tub]{1}. A door leads out to the [hallway].
 
 mirror:
     description: Sam glances at the mirror.

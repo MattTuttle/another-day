@@ -1,6 +1,8 @@
 @import "normalize";
 @import "skeleton";
 
+$link-color: #43C079;
+
 html, body {
 	height: 100%;
 }
@@ -11,22 +13,33 @@ body {
 
 .area-link {
 	cursor: pointer;
+	color: $link-color;
+}
+
+.area-link:hover {
+	color: $link-color;
 	text-decoration: underline;
 }
 
-.container {
+.story {
 	background: #FFF;
 	padding: 20px;
+	box-shadow: 1px 1px 4px #CCC;
 }
 
-.happiness {
-	position: absolute;
-	top: 0;
-	right: 0;
+.story ul {
+	list-style: none;
 }
 
-.smile {
-	fill: #333;
-	width: 30px;
-	height: 30px;
+.story li:before {
+	content: "\0203A";
+	margin-right: 5px;
+	color: $link-color;
 }
+
+#debug {
+	display: none;
+}
+
+.text-center { text-align: center; }
+.text-right { text-align: right; }
