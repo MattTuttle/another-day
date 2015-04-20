@@ -3,11 +3,11 @@ morning:
         It is early Monday morning. The sun is streaking through the blinds and bounces along the bedspread. Sam becomes groggily aware of a [buzzing sound] in the distance.
 
 buzzing sound:
-    description: Reaching around in the dim sunlight Sam finds the origin of the buzzing. It's an alarm clock on the bed stand warning Sam to wake up for work.
+    description: Reaching around in the dim sunlight Sam finds the origin of the buzzing. It's an alarm clock on the night stand warning Sam to wake up for work.
     options:
         - option: Turn off the alarm and get up.
           to: bedroom
-          happiness: 1
+          happiness: 3
         - option: Hit the snooze button.
           to: sleep1
 
@@ -18,10 +18,10 @@ sleep1:
           to: bedroom
         - option: Give the snooze button another smack.
           to: sleep2
-          happiness: -2
 
 sleep2:
     description: The alarm continues going off until Sam finally crawls out of bed. She should have been at work an hour ago!
+    happiness: -7
     set: late
     to: bedroom
 
@@ -64,10 +64,11 @@ mirror:
     description: Sam glances at the mirror.
     when:
         - views: 2
-          description: Looking a little closer, Sam sees her reflection in the mirror.
+          description: Looking a little closer, Sam sees her reflection in the mirror and smiles.
+          happiness: 1
         - views: 3
           description: Oh no! A few gray hairs are showing in the otherwise long sleek brunette hair on Sam's head.
-          happiness: -1
+          happiness: -3
         - views: 4
           description: Sam examines her face closely and notices wrinkles forming around her eyes. She heaves a sigh. Age is an evil mistress.
           happiness: -2
@@ -85,8 +86,8 @@ living room:
 
 tv:
     description: |
-        Sam turns on the tv and the news comes on. "In local news, a man is arrested for randomly shooting bystanders at the city park.". "That's near where I live!", Sam thinks to herself.
-    happiness: -1
+        Sam turns on the tv and the news comes on. "In local news, a man is arrested for randomly shooting bystanders at the city park." "That's near where I live!" Sam thinks to herself.
+    happiness: -4
     to: living room
 
 kitchen:
@@ -113,7 +114,12 @@ call trisha:
 
 garage:
     description: |
-        Various yard tools line the walls of the garage. A [car|unlock car] with the license plate number "LD32" is parked here. The [kitchen] door leads back into the house.
+        Various [yard tools]{1} line the walls of the garage. A [car|unlock car] with the license plate number "LD32" is parked here. The [kitchen] door leads back into the house.
+
+yard tools:
+    description: |
+        Rakes, shovels, and brooms are hung up on the walls. Most of them have seen better years. Thankfully they don't have to look nice to be useful.
+    to: garage
 
 unlock car:
     description: The car is locked. Sam tries to remember where she last left the keys.

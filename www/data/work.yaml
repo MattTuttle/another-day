@@ -17,7 +17,7 @@ boss:
     when:
         - flag: late
           description: |
-            "This is the third time you've been late to work! You continue down this path and you'll end up looking for a job."
+            "This is the third time you've been late to work! You continue down this path and you'll end up looking for another job."
             Sam apologizes and walks to her cubicle.
           happiness: -5
     to: cubicle
@@ -33,7 +33,7 @@ cubicle:
 calendar:
     description: |
         A calendar with a number of meetings marked on it. One is marked for today after lunch.
-        "I'd better not forget to go today", Sam says to herself.
+        "I'd better not forget to go today," Sam says to herself.
     when:
         - flag: meeting on time
           description: |
@@ -157,7 +157,7 @@ lunch phone call:
 meeting:
     description: |
         Sam finishes lunch and heads to her afternoon meeting. Upon arriving, she sees that the meeting has already started. She must not have paid attention to the time!
-        "You're late", her boss remarks.
+        "You're late," her boss remarks.
         Sam slinks into a chair near the door and the meeting continues.
     when:
         - flag: meeting on time
@@ -174,7 +174,7 @@ meeting2:
     description: |
         "As you can see quarterly earnings have increased which is good news for the company."
         Sam fidgets in her chair and tries to stay focused on the meeting. The minutes seem to slow to a crawl as she watches the clock face on the other end of the meeting room.
-        After what seems like a millenium the meeting is finally over. Sam packs up her things and heads to the parking lot.
+        After what seems like a millenium, the meeting is finally over. Sam packs up her things and heads to the parking lot.
     to: leave work
 
 leave work:

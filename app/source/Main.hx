@@ -11,8 +11,8 @@ class Main
 		{
 			var flags = Data.flags;
 			room = rooms.get(area);
-			var condition = room.getCondition();
 			var desc = '<p>$room</p>';
+			var condition = room.getCondition();
 			Data.happiness += condition.happiness;
 			if (condition.set != null) flags.set(condition.set, true);
 			if (condition.unset != null) flags.set(condition.unset, false);

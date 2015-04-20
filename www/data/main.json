@@ -1,4 +1,4 @@
 {
-	"start": "lunch",
+	"start": "bathroom",
 	"includes": ["data/morning.yaml", "data/coffee.yaml", "data/work.yaml", "data/evening.yaml"]
 }

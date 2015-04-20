@@ -1,34 +1,85 @@
 friends house:
     description: |
-        Pull into driveway. [restaurant friend]
+        Sam pulls up in front of Trisha's blue craftsman-style house with white shutters. She waits a few minutes before deciding what to do.
     options:
-        - option: Honk horn to notify friend of arrival. Leave for restaurant.
-          happiness: -1
-          to: restaurant friend
-        - option: Approach your friend's front door. Leave for restaurant.
-          to: restaurant friend
+        - option: Honk the horn to notify Trisha of her arrival.
+          to: horn
+        - option: Sam approaches Trisha's bright red front door.
+          to: front door
+
+horn:
+    description: |
+        Trisha exits her house and comes to the car.
+        "Hi Sam. Sorry you had to wait. I was just putting on my shoes."
+    to: arrive restaurant
+
+front door:
+    description: |
+        Sam knocks on the door and Trisha opens it.
+        "You look like a tornado hit you. Did you take a shower this morning?"
+    when:
+        - flag: clean
+          description: |
+            Sam knocks on the door and Trisha opens it.
+            "Hi Sam! Let me grab my purse and I'll be ready to go."
+          happiness: 0
+    happiness: -4
+    to: restaurant friend
 
 restaurant no friend:
     description: |
-        Arrive at the restaurant. Uh-oh! Your friend is not there. [text friend]
-    happiness: -1
+        Sam arrives at The Olive Grove, a locally owned Italian restaurant. She finds a [table|table no friend] to wait for Trisha's arrival and sets down her [cell phone|cell phone restaurant].
+
+table no friend:
+    description: |
+        A red and white checkered tablecloth is covering the table. There is a vase of fresh cut flowers in the center of the table.
+    to: restaurant no friend
+
+cell phone restaurant:
+    description: |
+        Sam checks the time on her cell phone and sees that it's past 7pm.
+        "Trish should have been here by now," she thinks to herself.
+    to: text friend
 
 text friend:
     description: |
-        Find out that your friend's car broke down and they need a ride.
+        Sam sends Trisha a text, "Where are you?"
+        Her phone beeps a response, "You didn't get my message? My car broke down. Can you come pick me up?"
+        After grabbing her purse, Sam rushes out of the restaurant to get Trisha.
+    happiness: -6
     to: friends house
-#Need a when somewhere depending on if you took the phone call or not.
+
+arrive restaurant:
+    description: |
+        Sam and Trisha arrive at The Olive Grove and find a table near the back. The waiter stops by and asks them for their order. Trisha orders a chicken salad and Sam gets the fettucini alfredo.
+        "Did you have a good day at work?", Trisha asks.
+        Sam chuckles, "I've had better but it wasn't the worst either."
+        "It hasn't sucked out your soul entirely I see."
+        "Ha, ha. Very funny." Sam sticks out her toungue at her friend.
+    to: return friend
 
 restaurant friend:
     description: |
-        Arrive at restaraunt with friend. [return friend]
+        Paintings of Italian vistas line the walls. The [menus] are on the checkered table. A [waiter] is at a table nearby.
 #Wait to be seated, food undercooked, tip waitress
+
+menus:
+    description: |
+        The menu offers a variety of pasta and pizza dishes. The story of the restaurant origin is detailed on the back.
+    to: restaurant friend
+
+waiter:
+    description: |
+        The waiter is a young girl who appears to be around 18.
 
 return friend:
     description: |
-        Take your friend home. [home night]
+        Sam takes Trisha home after they both pay their bills. It was a nice night out with her friend.
+    happiness: 2
+    to: home night
 
 home night:
     description: |
-        Return home.
-#TV night, read book, bills, letter from grandma, sleep
+        Once at home, Sam kicks off her shoes and curls up with her favorite book.
+        "It was just another day," she thinks to herself and grins. "Maybe tomorrow will be even better."
+# TV night, read book, bills, letter from grandma, sleep
