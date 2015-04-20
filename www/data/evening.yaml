@@ -4,7 +4,7 @@ friends house:
     options:
         - option: Honk the horn to notify Trisha of her arrival.
           to: horn
-        - option: Sam approaches Trisha's bright red front door.
+        - option: Approach Trisha's bright red front door.
           to: front door
 
 horn:
@@ -24,7 +24,7 @@ front door:
             "Hi Sam! Let me grab my purse and I'll be ready to go."
           happiness: 0
     happiness: -4
-    to: restaurant friend
+    to: arrive restaurant
 
 restaurant no friend:
     description: |
@@ -52,25 +52,11 @@ text friend:
 arrive restaurant:
     description: |
         Sam and Trisha arrive at The Olive Grove and find a table near the back. The waiter stops by and asks them for their order. Trisha orders a chicken salad and Sam gets the fettucini alfredo.
-        "Did you have a good day at work?", Trisha asks.
+        "Did you have a good day at work?" Trisha asks.
         Sam chuckles, "I've had better but it wasn't the worst either."
         "It hasn't sucked out your soul entirely I see."
         "Ha, ha. Very funny." Sam sticks out her toungue at her friend.
     to: return friend
-
-restaurant friend:
-    description: |
-        Paintings of Italian vistas line the walls. The [menus] are on the checkered table. A [waiter] is at a table nearby.
-#Wait to be seated, food undercooked, tip waitress
-
-menus:
-    description: |
-        The menu offers a variety of pasta and pizza dishes. The story of the restaurant origin is detailed on the back.
-    to: restaurant friend
-
-waiter:
-    description: |
-        The waiter is a young girl who appears to be around 18.
 
 return friend:
     description: |

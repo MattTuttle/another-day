@@ -140,7 +140,7 @@ lunch phone call:
         "Hey Sam. It's Trisha."
         "Oh, hey Trish. Still planning to meet tonight?"
         "Yeah, but I need a favor. My car broke down and I need a ride. Can you come pick me up this evening?"
-        "Sure thing. I'll be there a 15 minutes before 7:00. Hey, I've got a meeting. I'll catch you later!"
+        "Sure thing. I'll be there at 15 minutes before 7:00. Hey, I've got a meeting. I'll catch you later!"
     when:
         - flag: pickup trisha
           description: |

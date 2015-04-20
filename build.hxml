@@ -15,7 +15,7 @@
 # -cmd cp www/index.html ~/Dropbox/LD32/index.html
 
 #copy from dropbox
-# -cmd cp ~/Dropbox/LD32/data/morning.yaml www/data/morning.yaml
-# -cmd cp ~/Dropbox/LD32/data/coffee.yaml www/data/coffee.yaml
-# -cmd cp ~/Dropbox/LD32/data/work.yaml www/data/work.yaml
-# -cmd cp ~/Dropbox/LD32/data/evening.yaml www/data/evening.yaml
+-cmd cp ~/Dropbox/LD32/data/morning.yaml www/data/morning.yaml
+-cmd cp ~/Dropbox/LD32/data/coffee.yaml www/data/coffee.yaml
+-cmd cp ~/Dropbox/LD32/data/work.yaml www/data/work.yaml
+-cmd cp ~/Dropbox/LD32/data/evening.yaml www/data/evening.yaml

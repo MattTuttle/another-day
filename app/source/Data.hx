@@ -9,7 +9,7 @@ class Data
 	private static function set_happiness(value:Int):Int
 	{
 		// cap happiness values
-		if (Math.abs(happiness) > maxHappiness) happiness = (happiness < 0 ? -1 : 1) * maxHappiness;
+		if (Math.abs(value) > maxHappiness) value = (value < 0 ? -1 : 1) * maxHappiness;
 
 		var percent = ((value + maxHappiness) / maxHappiness / 2);
 
