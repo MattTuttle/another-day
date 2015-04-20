@@ -1,30 +1,92 @@
+car no coffee:
+    description: |
+        Sam decides to take a shortcut but gets stopped by a train and ends up late for work.
+    set: late
+    happiness: -1
+    to: work
+
 work:
     description: |
-        Office job. [boss] [desk] [customer] [lunch]{1} [meeting] [leave work]
-#Variable for being late to work.
-#Add project somewhere - work or desk?
+        Sam arrives at her work, Glacier Corp. She parks in the parking ramp, enters through the security checkpoint and takes the elevator up to the 18th floor. Walking to her cubicle she encounters her boss.
+    to: boss
 
 boss:
-    description: The boss. [work]
+    description: |
+        "Glad to see you made it on time this morning. I was beginning to wonder about your work ethic."
+        Sam walks to her cubicle.
     when:
         - flag: late
-          description: You're Late!! [work]
-        - flag: early
-          description: Sam is early. [work]
-    #Different options depending on timeliness.
+          description: |
+            "This is the third time you've been late to work! You continue down this path and you'll end up looking for a job."
+            Sam apologizes and walks to her cubicle.
+          happiness: -1
+    to: cubicle
 
-desk:
+cubicle:
     description: |
-        Gray cubicle walls. Red stapler. TPS Reports. [work] [customer]
+        Dull gray walls surround Sam's cubicle. A [computer monitor|monitor] sits on the desk next to her [work phone] and red stapler. Hanging on one of the walls is a [calendar].
 
-customer:
+calendar:
     description: |
-        Irate customer. [work]
+        A calendar with a number of meetings marked on it. One is marked for today after lunch.
+    to: cubicle
+
+work phone:
+    description: |
+        Just an ordinary work phone. As a Business Analyst, Sam gets a lot of use out of this thing.
+    to: cubicle
+
+monitor:
+    description: |
+        The monitor shows a desktop filled with icons. A folder named [PROJECT FINAL|project] is front and center. Quick links to [email] and a [web browser] are available.
+    to: cubicle
+
+email:
+    description: |
+        Sam opens the email client and sees a number of emails. The first is an [email from her boss|boss email]{1} and another is [from a client|client email]{1}.
+
+boss email:
+    description: |
+        Sam,
+        Good job on your last project! The client may have been difficult to work with but you persevered and did your best. Keep up that kind of work and you might be looking at a promotion.
+        Jerry
+    happiness: 2
+    to: email
+
+client email:
+    description: |
+        Hi, you recently worked with our company on a project and we were disappointed with the speed of your service. In the future we will be looking at other companies besides Glacier Corp in hopes of getting better customer support.
+        Harriet Butternut
+        Iris Publications
+    happiness: -1
+    options:
+        - option: Respond with a snarky email
+          to: snark email
+        - option: Close the email
+          to: email
+
+web browser:
+    description: |
+        A web browser
+    options:
+        - option: Surf the web
+          to: surf web
+        - option: Close
+          to: monitor
 
 project:
     description: |
-        Work on project. [desk]
-#Not sure where this is going...
+        This folder contains a number of spreadsheets providing details about Sam's current work project. Most of the files are complete but a few still need work.
+    options:
+        - option: Sam decides to work on the project.
+          to: work on project
+        - option: Close the folder.
+          to: monitor
+
+work on project:
+    description: |
+        Work on project.
+    to: lunch
 
 lunch:
     description: |
@@ -56,38 +118,3 @@ car leaving work:
           description: arrive at [friends house].
         - flag: restaurant
           description: enter [restaurant no friend].
-
-friends house:
-    description: |
-        Pull into driveway. [restaurant friend]
-    options:
-        - option: Honk horn to notify friend of arrival. Leave for restaurant.
-          happiness: -1
-          to: restaurant friend
-        - option: Approach your friend's front door. Leave for restaurant.
-          to: restaurant friend
-
-restaurant no friend:
-    description: |
-        Arrive at the restaurant. Uh-oh! Your friend is not there. [text friend]
-    happiness: -1
-
-text friend:
-    description: |
-        Find out that your friend's car broke down and they need a ride.
-    to: friends house
-#Need a when somewhere depending on if you took the phone call or not.
-
-restaurant friend:
-    description: |
-        Arrive at restaraunt with friend. [return friend]
-#Wait to be seated, food undercooked, tip waitress
-
-return friend:
-    description: |
-        Take your friend home. [home night]
-
-home night:
-    description: |
-        Return home.
-#TV night, read book, bills, letter from grandma, sleep

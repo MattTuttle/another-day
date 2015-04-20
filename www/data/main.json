@@ -1,4 +1,4 @@
 {
-	"start": "coffee shop",
-	"includes": ["data/morning.yaml", "data/coffee.yaml", "data/work.yaml"]
+	"start": "cubicle",
+	"includes": ["data/morning.yaml", "data/coffee.yaml", "data/work.yaml", "data/evening.yaml"]
 }

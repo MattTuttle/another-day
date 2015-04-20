@@ -148,5 +148,5 @@ class Room
 	private var _defaultCondition:Condition;
 	private var _defaultDescription:Array<Dynamic>;
 
-	private var link_regex = ~/\[\s*([a-zA-Z0-9 _]+)(?:\s*\|\s*([a-zA-Z0-9 _]+))?\s*\](?:\{([0-9]+)\})?/g;
+	private var link_regex = ~/\[\s*([a-zA-Z0-9 _'"]+)(?:\s*\|\s*([a-zA-Z0-9 _"']+))?\s*\](?:\{([0-9]+)\})?/g;
 }

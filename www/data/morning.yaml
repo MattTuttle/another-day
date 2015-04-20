@@ -91,11 +91,11 @@ tv:
 
 kitchen:
     description: |
-        The kitchen connects to the [living room] via an entryway. A door leads to the [garage]. On the dining table is a [cordless phone|phone]{1} with an answering machine.
+        The kitchen connects to the [living room] via an entryway. A door leads to the [garage]. On the dining table is Sam's [cellphone]{1} showing a missed notification.
 
-phone:
+cellphone:
     description: |
-        There is a message on the machine. It is Sam's friend Trisha. Her car is in the shop and she needs a ride to tonight's meetup.
+        There is a message on the cellphone from Sam's friend Trisha. Her car is in the shop and she needs a ride to tonight's meetup.
     options:
       - option: Call Trisha back.
         to: call trisha

@@ -1,0 +1,34 @@
+friends house:
+    description: |
+        Pull into driveway. [restaurant friend]
+    options:
+        - option: Honk horn to notify friend of arrival. Leave for restaurant.
+          happiness: -1
+          to: restaurant friend
+        - option: Approach your friend's front door. Leave for restaurant.
+          to: restaurant friend
+
+restaurant no friend:
+    description: |
+        Arrive at the restaurant. Uh-oh! Your friend is not there. [text friend]
+    happiness: -1
+
+text friend:
+    description: |
+        Find out that your friend's car broke down and they need a ride.
+    to: friends house
+#Need a when somewhere depending on if you took the phone call or not.
+
+restaurant friend:
+    description: |
+        Arrive at restaraunt with friend. [return friend]
+#Wait to be seated, food undercooked, tip waitress
+
+return friend:
+    description: |
+        Take your friend home. [home night]
+
+home night:
+    description: |
+        Return home.
+#TV night, read book, bills, letter from grandma, sleep
