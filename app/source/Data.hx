@@ -31,17 +31,17 @@ class Data
 		// Set face and stroke color based on percent of happiness
 		var color = "#4DAF33";
 		var face = "face-wink";
-		if (percent < 0.15)
+		if (percent < 0.2)
 		{
 			color = "#AF0025";
 			face = "face-angry";
 		}
-		else if (percent < 0.3)
+		else if (percent < 0.4)
 		{
 			color = "#AF0025";
 			face = "face-sad";
 		}
-		else if (percent < 0.45)
+		else if (percent < 0.5)
 		{
 			color = "#DDC41D";
 			face = "face-shocked";
