@@ -67,5 +67,22 @@ return friend:
 home night:
     description: |
         Once at home, Sam kicks off her shoes and curls up with her favorite book.
-        "It was just another day," she thinks to herself and grins. "Maybe tomorrow will be even better."
+    to: ending
 # TV night, read book, bills, letter from grandma, sleep
+
+ending:
+    description: |
+        "Wow, what a fantastic day!" she thinks to herself and grins. "I bet tomorrow will be just as good."
+    when:
+        - mood: angry
+          description: |
+              "That was the worst day of my life," Sam thinks to herself and scowls. "Tomorrow has got to be better."
+        - mood: sad
+          description: |
+              "What a crummy day," she thinks to herself. "I hope tomorrow will be better."
+        - mood: neutral
+          description: |
+              "It was just another day," she thinks to herself. "Maybe tomorrow will be better."
+        - mood: happy
+          description: |
+              "What a great day," she thinks to herself. "Maybe tomorrow will be even better."

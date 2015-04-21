@@ -4,6 +4,7 @@ using StringTools;
 
 typedef Condition = {
 	?cond: String,
+	?mood: String,
 	?set: String,
 	?unset: String,
 	to:String,
@@ -36,6 +37,7 @@ class Room
 			{
 				_conditions.push({
 					cond: when.get("flag"),
+					mood: when.get("mood"),
 					to: when.exists("to") ? when.get("to") : _defaultCondition.to,
 					views: when.get("views"),
 					options: data.exists("options") ? parseOptions(data.get("options")) : _defaultCondition.options,
@@ -107,6 +109,7 @@ class Room
 		for (condition in _conditions)
 		{
 			if ((condition.cond != null && flags.exists(condition.cond) && flags.get(condition.cond) == true) ||
+				(condition.mood != null && Data.mood == condition.mood) ||
 				condition.views == _viewTimes)
 			{
 				return condition;

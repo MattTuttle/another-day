@@ -5,12 +5,37 @@ class Data
 
 	public static inline var maxHappiness = 10;
 
+	public static var mood(get, never):String;
+	private static function get_mood():String
+	{
+		var percent = ((happiness + maxHappiness) / maxHappiness / 2);
+		if (percent < 0.2)
+		{
+			return "angry";
+		}
+		else if (percent < 0.4)
+		{
+			return "sad";
+		}
+		else if (percent < 0.6)
+		{
+			return "neutral";
+		}
+		else if (percent < 0.8)
+		{
+			return "happy";
+		}
+		else
+		{
+			return "joyful";
+		}
+	}
+
 	public static var happiness(default, set):Int = 0;
 	private static function set_happiness(value:Int):Int
 	{
 		// cap happiness values
 		if (Math.abs(value) > maxHappiness) value = (value < 0 ? -1 : 1) * maxHappiness;
-
 		var percent = ((value + maxHappiness) / maxHappiness / 2);
 
 		if (_path == null)
