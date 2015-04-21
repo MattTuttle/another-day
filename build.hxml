@@ -1,7 +1,6 @@
 -js www/js/app.js
 -main Main
 -lib yaml
--debug
 -cp app/source
 
 --next
